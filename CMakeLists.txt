@@ -8,11 +8,11 @@ if(NOT CMAKE_BUILD_TYPE)
     message(STATUS "Build type not specified: Use Release by default")
 endif(NOT CMAKE_BUILD_TYPE)
 
-project(game_project)
+project(game_project VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 14)
-
-include(ExternalProject)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES Linux)
     set(PLATFORM_LINUX TRUE)
@@ -57,14 +57,12 @@ if(MSVC)
         version
         uuid
         setupapi
-        sdl2::sdl2
-        sdl2::main)
+        SDL2::SDL2-static
+        SDL2::SDL2main)
 else(MSVC)
     target_link_libraries(game_project PRIVATE
-        pthread
-        sdl2::sdl2
-        sdl2::main
-        ${CMAKE_DL_LIBS})
+        SDL2::SDL2-static
+        SDL2::SDL2main)
 endif(MSVC)
 
 add_custom_target(debug
