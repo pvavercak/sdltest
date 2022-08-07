@@ -9,10 +9,6 @@ function(build_external_project target file_name)
 
         file(MD5 \"${file_name}\" FILE_HASH)
 
-        # CMAKE_OSX_ARCHITECTURES can contain semicolons.
-        # Semicolons are problematic when passed to externalproject_add
-        string(REPLACE \";\" \"$<SEMICOLON>\" CMAKE_OSX_ARCHITECTURES_ \"${CMAKE_OSX_ARCHITECTURES}\")
-
         include(ExternalProject)
         ExternalProject_add(${target}
             URL \"${file_name}\"
@@ -21,7 +17,7 @@ function(build_external_project target file_name)
             CMAKE_GENERATOR_PLATFORM \"${CMAKE_GENERATOR_PLATFORM}\"
             CMAKE_GENERATOR_TOOLSET \"${CMAKE_GENERATOR_TOOLSET}\"
             CMAKE_GENERATOR_INSTANCE \"${CMAKE_GENERATOR_INSTANCE}\"
-            CMAKE_ARGS ${ARGN} \"-DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}\")
+            CMAKE_ARGS ${ARGN})
 
         add_custom_target(build_external_project)
         add_dependencies(build_external_project ${target})

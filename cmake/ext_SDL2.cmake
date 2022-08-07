@@ -2,7 +2,12 @@ include(cmake/build_ext_project.cmake)
 
 set(SDL2_CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install/sdl2" CACHE PATH "Path to a directory where SDL2 library in going to be installed")
 
+# CMAKE_OSX_ARCHITECTURES can contain semicolons.
+# Semicolons are problematic when passed to externalproject_add
+string(REPLACE ";" "$<SEMICOLON>" CMAKE_OSX_ARCHITECTURES_ "${CMAKE_OSX_ARCHITECTURES}")
+
 list(APPEND SDL2_EXT_CMAKE_ARGS
+    -DCMAKE_OSX_ARCHITECTURES=${CMAKE_OSX_ARCHITECTURES_}
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
     -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
     -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
